@@ -1,21 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using CoffeeBara.Gameplay.Common.FiniteStateMachine;
 using UnityEngine;
 
-namespace CoffeeBara
-{
-    public class PlayerCharacter : MonoBehaviour
-    {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
+namespace CoffeeBara.Gameplay.Player.MovementPlayer {
+    public class PlayerCharacter : MonoBehaviour {
+        private MovementStateMachine _stateMachine;
+        private BlackBoard _blackBoard;
+
+        public Vector2 MovementInput {
+            set => _blackBoard.movementInput = value;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
+        public void Jump() {
+            _stateMachine.TriggerJump();
+        }
+
+        public void Dash() {
+            _stateMachine.TriggerDash();
+        }
+
+        private void Awake() {
+            BlackBoard blackBoard = new BlackBoard() {
+                
+            };
+            
+            _stateMachine = new MovementStateMachine(blackBoard);
         }
     }
 }

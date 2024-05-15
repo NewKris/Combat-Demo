@@ -2,7 +2,8 @@
     "name": "Player",
     "rootNamespace": "CoffeeBara",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:53648e4daea586d4f893ae4a99fb5e53"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

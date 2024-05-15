@@ -1,8 +1,8 @@
 {
-    "name": "MovementPlayer",
+    "name": "Character",
     "rootNamespace": "CoffeeBara",
     "references": [
-        "GUID:703103d06eb43cb469b496729013f1c3"
+        "GUID:d4424229e0144a14083b4724f392f03f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
