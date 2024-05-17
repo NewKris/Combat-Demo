@@ -26,15 +26,18 @@ namespace CoffeeBara.Gameplay.Common.FiniteStateMachine {
             
             _currentState.OnExitState += OnStateExited;
             _currentState.Enter(_stateDependency);
+            
+            EnableAnyTransitions();
         }
 
         ~StateMachine() {
             _currentState.OnExitState -= OnStateExited;
+            DisableAnyTransitions();
         }
         
         public void Tick() {
             _currentState.Tick(_stateDependency);
-            _currentState.TryTransition(_stateDependency);
+            _currentState.TryTransition();
             TryAnyTransition();
             
             TryGoToNextState();
@@ -60,16 +63,35 @@ namespace CoffeeBara.Gameplay.Common.FiniteStateMachine {
             _queuedStates.Enqueue(nextState);
         }
 
+        private void EnableAnyTransitions() {
+            if (_anyTransitions == null) {
+                return;
+            }
+            
+            foreach (Transition<T> anyTransition in _anyTransitions) {
+                anyTransition.OnTransitionTriggered += OnStateExited;
+            }
+        }
+
+        private void DisableAnyTransitions() {
+            if (_anyTransitions == null) {
+                return;
+            }
+            
+            foreach (Transition<T> anyTransition in _anyTransitions) {
+                anyTransition.OnTransitionTriggered -= OnStateExited;
+            }
+        }
+
         private void TryAnyTransition() {
             if (_anyTransitions == null) {
                 return;
             }
             
             foreach (Transition<T> anyTransition in _anyTransitions) {
-                if (!anyTransition.condition(_stateDependency)) continue;
-
-                OnStateExited(anyTransition.toState);
-                break;
+                if (anyTransition.Evaluate()) {
+                    break;
+                }
             }
         }
     }

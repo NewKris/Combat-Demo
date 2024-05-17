@@ -2,7 +2,8 @@
     "name": "Character",
     "rootNamespace": "CoffeeBara",
     "references": [
-        "GUID:d4424229e0144a14083b4724f392f03f"
+        "GUID:d4424229e0144a14083b4724f392f03f",
+        "GUID:703103d06eb43cb469b496729013f1c3"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
