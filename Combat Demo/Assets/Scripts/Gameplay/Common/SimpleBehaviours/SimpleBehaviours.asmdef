@@ -1,0 +1,16 @@
+{
+    "name": "SimpleBehaviours",
+    "rootNamespace": "CoffeeBara",
+    "references": [
+        "GUID:d4424229e0144a14083b4724f392f03f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
