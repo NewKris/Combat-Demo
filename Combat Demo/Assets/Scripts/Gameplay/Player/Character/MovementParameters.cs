@@ -32,5 +32,9 @@ namespace CoffeeBara.Gameplay.Player.Character {
             float t = jumpTime * 0.5f;
             return (2 * jumpHeight) / t;
         }
+
+        public float CalculateDashSpeed() {
+            return dashLength / dashDuration;
+        }
     }
 }

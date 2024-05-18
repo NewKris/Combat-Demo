@@ -17,9 +17,9 @@ namespace CoffeeBara.Gameplay.Common.SimpleBehaviours {
             SnapToTarget();
         }
 
-        private void LateUpdate() {
+        private void FixedUpdate() {
             _position.Target = target.position;
-            transform.position = _position.Tick(damping);
+            transform.position = _position.Tick(damping, Time.fixedDeltaTime);
         }
     }
 }

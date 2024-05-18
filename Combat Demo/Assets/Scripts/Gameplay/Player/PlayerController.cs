@@ -18,7 +18,7 @@ namespace CoffeeBara.Gameplay.Player {
             _input.Combat.HeavyAttack.performed += _ => character.HeavyAttack();
             _input.Combat.SpecialAttack.performed += _ => character.SpecialAttack();
             
-            _input.Locomotion.Enable();
+            _input.Enable();
         }
 
         private void Update() {

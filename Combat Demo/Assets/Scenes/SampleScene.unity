@@ -1352,6 +1352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4937927b026ff34da76cd42c742225b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faceMoveDirection: 1
   sphereRadius: 0.5
   castStart: 0.6
   castLength: 0.2
@@ -1410,8 +1411,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-    maxJogSpeed: 5
-    maxSprintSpeed: 10
+    maxJogSpeed: 7
+    maxSprintSpeed: 12
     velocityDamping: 0.1
     angularDamping: 0.1
     dashDuration: 0.2

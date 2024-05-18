@@ -4,6 +4,7 @@ using UnityEngine;
 namespace CoffeeBara.Gameplay.Player.Character {
     [RequireComponent(typeof(CharacterController))]
     public class KinematicCharacter : MonoBehaviour {
+        public bool faceMoveDirection;
         public float sphereRadius;
         public float castStart;
         public float castLength;
@@ -11,13 +12,14 @@ namespace CoffeeBara.Gameplay.Player.Character {
 
         private float _angularVelocity;
         private DampedVector _horizontalVelocity;
+        private DampedAngle _yaw;
         private CharacterController _characterController;
 
         public bool IsGrounded { get; private set; }
         public float VelocityDamping { get; set; }
         public float GravityScale { get; set; }
-        public float VerticalVelocity { get; set; }
         public float AngularDamping { get; set; }
+        public float VerticalVelocity { get; set; }
 
         public Vector3 Forward => transform.forward;
         
@@ -36,6 +38,7 @@ namespace CoffeeBara.Gameplay.Player.Character {
         
         private void Awake() {
             _characterController = GetComponent<CharacterController>();
+            _yaw = new DampedAngle(transform.rotation.eulerAngles.y);
         }
 
         private void FixedUpdate() {
@@ -49,19 +52,12 @@ namespace CoffeeBara.Gameplay.Player.Character {
             _characterController.Move(velocity * Time.fixedDeltaTime);
             VerticalVelocity = (transform.position.y - previousY) / Time.fixedDeltaTime;
 
-            if (_horizontalVelocity.Current == Vector3.zero) {
+            if (!faceMoveDirection || _horizontalVelocity.Current == Vector3.zero) {
                 return;
             }
             
-            float targetYaw = Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg;
-            float currentYaw = Rotation.eulerAngles.y;
-            float yaw = Mathf.SmoothDampAngle(
-                currentYaw, 
-                targetYaw, 
-                ref _angularVelocity,
-                AngularDamping
-            );
-            Rotation = Quaternion.Euler(0, yaw, 0);
+            _yaw.Target = Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg;
+            Rotation = Quaternion.Euler(0, _yaw.Tick(AngularDamping), 0);
         }
 
         private bool CalculateGrounded() {

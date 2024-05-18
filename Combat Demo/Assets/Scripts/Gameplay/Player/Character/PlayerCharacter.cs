@@ -11,8 +11,11 @@ namespace CoffeeBara.Gameplay.Player.Character {
         private Trigger _dashTrigger;
         private Trigger _attackTrigger;
         private CharacterStateMachine _stateMachine;
+
+        public bool SprintHeld {
+            set => _blackBoard.holdingDash = value;
+        }
         
-        public bool SprintHeld { get; set; }
         public string CurrentStateName => _stateMachine.CurrentStateName;
 
         public Vector2 MovementInput {
@@ -43,6 +46,7 @@ namespace CoffeeBara.Gameplay.Player.Character {
             _blackBoard = new BlackBoard() {
                 defaultGravityScale = parameters.CalculateGravityScale(),
                 jumpForce = parameters.CalculateJumpForce(),
+                dashSpeed = parameters.CalculateDashSpeed(),
                 kinematicCharacter = GetComponent<KinematicCharacter>(),
                 parameters = parameters
             };

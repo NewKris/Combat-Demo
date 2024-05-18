@@ -25,6 +25,8 @@ namespace CoffeeBara.Gameplay.Player.Character {
         private Transition<BlackBoard> _attackToIdle;
         private Transition<BlackBoard> _toIdle;
         private Transition<BlackBoard> _toAirborne;
+        private Transition<BlackBoard> _dashToIdle;
+        private Transition<BlackBoard> _dashToAirborne;
 
         public string CurrentStateName => _stateMachine.CurrentStateName;
         
@@ -87,9 +89,12 @@ namespace CoffeeBara.Gameplay.Player.Character {
             
             _toIdle = TransitionFactory.ToIdle(_blackBoard, _idleState);
             _toAirborne = TransitionFactory.ToAirborne(_blackBoard, _airborneState);
+            
             _idleToMove = TransitionFactory.IdleToMove(_blackBoard, _moveState);
             _moveToIdle = TransitionFactory.MoveToIdle(_blackBoard, _idleState);
             _attackToIdle = TransitionFactory.AttackToIdle(_blackBoard, _idleState);
+            _dashToIdle = TransitionFactory.DashToIdle(_blackBoard, _idleState);
+            _dashToAirborne = TransitionFactory.DashToAirborne(_blackBoard, _airborneState);
         }
 
         private void AssignTransitions() {
@@ -97,7 +102,8 @@ namespace CoffeeBara.Gameplay.Player.Character {
                 _idleToMove,
                 _jumpTransition,
                 _dashTransition,
-                _attackTransition
+                _attackTransition,
+                _toAirborne
             );
             
             _moveState.SetTransitions(
@@ -125,8 +131,8 @@ namespace CoffeeBara.Gameplay.Player.Character {
             );
             
             _dashState.SetTransitions(
-                _toAirborne,
-                _toIdle
+                _dashToAirborne,
+                _dashToIdle
             );
             
             _attackState.SetTransitions(

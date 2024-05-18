@@ -23,6 +23,7 @@ namespace CoffeeBara.Gameplay.Player.Character {
             return Transition<BlackBoard>.GetBuilder()
                 .ToState(idleState)
                 .Dependency(blackBoard)
+                .Condition(_ => true)
                 .Build();
         }
 
@@ -69,6 +70,7 @@ namespace CoffeeBara.Gameplay.Player.Character {
                 .ToState(doubleJumpState)
                 .Dependency(blackBoard)
                 .SetTrigger(jumpTrigger)
+                .Condition(bb => bb.noOfPerformedAirJumps < bb.parameters.noOfAirJumps)
                 .Build();
         }
 
@@ -93,6 +95,22 @@ namespace CoffeeBara.Gameplay.Player.Character {
                 .ToState(attackState)
                 .Dependency(blackBoard)
                 .SetTrigger(attackTrigger)
+                .Build();
+        }
+
+        public static Transition<BlackBoard> DashToIdle(BlackBoard blackBoard, State<BlackBoard> idleState) {
+            return Transition<BlackBoard>.GetBuilder()
+                .ToState(idleState)
+                .Dependency(blackBoard)
+                .Condition(bb => bb.timer > bb.parameters.dashDuration && bb.kinematicCharacter.IsGrounded)
+                .Build();
+        }
+        
+        public static Transition<BlackBoard> DashToAirborne(BlackBoard blackBoard, State<BlackBoard> airborneState) {
+            return Transition<BlackBoard>.GetBuilder()
+                .ToState(airborneState)
+                .Dependency(blackBoard)
+                .Condition(bb => bb.timer > bb.parameters.dashDuration && !bb.kinematicCharacter.IsGrounded)
                 .Build();
         }
     }
