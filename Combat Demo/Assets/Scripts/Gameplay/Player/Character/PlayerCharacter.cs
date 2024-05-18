@@ -48,6 +48,7 @@ namespace CoffeeBara.Gameplay.Player.Character {
                 jumpForce = parameters.CalculateJumpForce(),
                 dashSpeed = parameters.CalculateDashSpeed(),
                 kinematicCharacter = GetComponent<KinematicCharacter>(),
+                characterAnimator = GetComponentInChildren<CharacterAnimator>(),
                 parameters = parameters
             };
 

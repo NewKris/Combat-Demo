@@ -8,6 +8,8 @@ namespace CoffeeBara.Gameplay.Player.Character {
             return State<BlackBoard>.GetBuilder()
                 .StateName("Idle")
                 .OnEnter(bb => {
+                    bb.characterAnimator.QueueClip(CharacterAnimations.Idle, 0.1f);
+                    
                     bb.noOfPerformedAirJumps = 0;
                     
                     bb.kinematicCharacter.GravityScale = bb.defaultGravityScale;
@@ -22,10 +24,17 @@ namespace CoffeeBara.Gameplay.Player.Character {
         public static State<BlackBoard> Move() {
             return State<BlackBoard>.GetBuilder()
                 .StateName("Move")
+                .OnEnter(bb => {
+                    bb.characterAnimator.QueueClip(CharacterAnimations.Move, 0.2f);
+                })
                 .OnTick(bb => {
                     float maxSpeed = bb.holdingDash ? bb.parameters.maxSprintSpeed : bb.parameters.maxJogSpeed;
+                    bb.characterAnimator.PlaybackSpeed = bb.holdingDash ? 1.5f : 1;
                     Vector3 vel = bb.movementInput.ToGroundPlaneVector() * maxSpeed;
                     bb.kinematicCharacter.Move(vel);
+                })
+                .OnExit(bb => {
+                    bb.characterAnimator.PlaybackSpeed = 1;
                 })
                 .Build();
         }
@@ -35,6 +44,7 @@ namespace CoffeeBara.Gameplay.Player.Character {
                 .StateName("Jump")
                 .OnEnter(bb => {
                     bb.kinematicCharacter.Jump(bb.jumpForce);
+                    bb.characterAnimator.QueueClip(CharacterAnimations.Jump, 0, 1);
                 })
                 .Build();
         }
@@ -45,6 +55,7 @@ namespace CoffeeBara.Gameplay.Player.Character {
                 .OnEnter(bb => {
                     bb.noOfPerformedAirJumps++;
                     bb.kinematicCharacter.Jump(bb.jumpForce);
+                    bb.characterAnimator.QueueClip(CharacterAnimations.DoubleJump, 0, 1);
                 })
                 .Build();
         }
@@ -56,6 +67,7 @@ namespace CoffeeBara.Gameplay.Player.Character {
                     bb.kinematicCharacter.GravityScale = bb.defaultGravityScale;
                     bb.kinematicCharacter.AngularDamping = bb.parameters.angularDamping;
                     bb.kinematicCharacter.VelocityDamping = bb.parameters.airborneVelocityDamping;
+                    bb.characterAnimator.QueueClip(CharacterAnimations.Airborne, 0.2f);
                 })
                 .OnTick(bb => {
                     float maxSpeed = bb.holdingDash ? bb.parameters.maxSprintSpeed : bb.parameters.maxJogSpeed;
@@ -73,6 +85,8 @@ namespace CoffeeBara.Gameplay.Player.Character {
                     bb.kinematicCharacter.GravityScale = 0;
                     bb.kinematicCharacter.AngularDamping = 0;
                     bb.kinematicCharacter.VerticalVelocity = 0;
+                    
+                    bb.characterAnimator.QueueClip(CharacterAnimations.Dash);
                 })
                 .OnTick(bb => {
                     bb.timer += Time.deltaTime;

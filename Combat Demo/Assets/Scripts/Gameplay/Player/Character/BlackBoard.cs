@@ -13,5 +13,6 @@ namespace CoffeeBara.Gameplay.Player.Character {
         public Vector2 movementInput;
         public MovementParameters parameters;
         public KinematicCharacter kinematicCharacter;
+        public CharacterAnimator characterAnimator;
     }
 }

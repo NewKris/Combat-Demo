@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CoffeeBara.Gameplay.Player {
+namespace CoffeeBara.Gameplay.Player.Character {
     public readonly struct Animation {
         public readonly int clipHash;
         public readonly float crossFade;
@@ -20,6 +20,10 @@ namespace CoffeeBara.Gameplay.Player {
         private Animation _currentAnimation;
         
         private readonly Queue<Animation> _queuedAnimations = new Queue<Animation>();
+        
+        public float PlaybackSpeed {
+            set => _animator.speed = value;
+        }
         
         public void QueueClip(int clipHash, float crossFade = 0, float exitTime = 0) {
             _queuedAnimations.Enqueue(new Animation(clipHash, crossFade, Mathf.Clamp01(exitTime)));
