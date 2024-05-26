@@ -1,10 +1,7 @@
 {
-    "name": "Player",
+    "name": "HierarchicalStateMachine",
     "rootNamespace": "CoffeeBara",
-    "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:b4ab0c8237e914940a53a780034f64e6"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
