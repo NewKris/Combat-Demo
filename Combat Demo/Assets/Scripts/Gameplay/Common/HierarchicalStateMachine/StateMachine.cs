@@ -50,7 +50,7 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
         
         public void Tick() {
             _currentState.Tick(_stateDependency);
-            _currentState.TryTransition();
+            _currentState.TryTransition(_stateDependency);
             TryAnyTransition();
             
             TryGoToNextState();
@@ -102,7 +102,7 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
             }
             
             foreach (Transition<T> anyTransition in _anyTransitions) {
-                if (anyTransition.Evaluate()) {
+                if (anyTransition.Evaluate(_stateDependency)) {
                     break;
                 }
             }

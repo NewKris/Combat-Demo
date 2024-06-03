@@ -8,17 +8,15 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
 
         private readonly bool _hasTrigger;
         private readonly bool _hasCondition;
-        private readonly Trigger _trigger;
+        private readonly Trigger<T> _trigger;
         private readonly State<T> _toState;
-        private readonly T _dependency;
         private readonly TransitionCondition _condition;
 
         public State<T> ToState => _toState;
 
         internal Transition(
-            Trigger trigger,
+            Trigger<T> trigger,
             State<T> toState,
-            T dependency,
             TransitionCondition condition
         ) {
             _hasTrigger = trigger != null;
@@ -26,7 +24,6 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
             
             _trigger = trigger;
             _toState = toState;
-            _dependency = dependency;
             _condition = condition;
         }
 
@@ -34,12 +31,12 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
             return new TransitionBuilder<T>();
         }
         
-        public bool Evaluate() {
+        public bool Evaluate(T dependency) {
             if (_hasTrigger || !_hasCondition) {
                 return false;
             }
             
-            return _condition.Invoke(_dependency);
+            return _condition.Invoke(dependency);
         }
 
         public void Activate() {
@@ -58,8 +55,8 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
             _trigger.OnTriggered -= OnTriggered;
         }
 
-        private void OnTriggered() {
-            if (!_hasCondition || _condition.Invoke(_dependency)) {
+        private void OnTriggered(T dependency) {
+            if (!_hasCondition || _condition.Invoke(dependency)) {
                 OnTransitionTriggered?.Invoke(_toState);
             }
         }

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
     public class State<T> {
@@ -9,6 +10,8 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
         private readonly Action<T> _onTick;
         private readonly StateMachine<T> _innerStateMachine;
 
+        private bool _enabled;
+        private bool _hasTransitions;
         private Transition<T>[] _transitions;
 
         public string StateName { get; }
@@ -25,6 +28,9 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
             _onExit = onExit;
             _onTick = onTick;
             _innerStateMachine = innerStateMachine;
+            
+            _enabled = false;
+            _hasTransitions = false;
         }
 
         public static StateBuilder<T> GetBuilder() {
@@ -33,9 +39,12 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
 
         public void SetTransitions(params Transition<T>[] transitions) {
             _transitions = transitions;
+            _hasTransitions = transitions.Length > 0;
         }
 
         public void Enter(T dependency) {
+            _enabled = true;
+            
             EnableTransitions(_transitions);
             _onEnter?.Invoke(dependency);
             _innerStateMachine?.Enter();
@@ -52,14 +61,14 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
             _innerStateMachine?.Tick();
         }
 
-        public void TryTransition() {
-            if (_transitions == null) return;
+        public void TryTransition(T dependency) {
+            if (!_hasTransitions || !_enabled) return;
             
             foreach (Transition<T> transition in _transitions) {
-                if (transition.Evaluate()) {
-                    ExitState(transition.ToState);
-                    break;
-                }
+                if (!transition.Evaluate(dependency)) continue;
+                
+                ExitState(transition.ToState);
+                break;
             }
         }
         
@@ -86,6 +95,9 @@ namespace CoffeeBara.Gameplay.Common.HierarchicalStateMachine {
         }
 
         private void ExitState(State<T> toState) {
+            if (!_enabled) return;
+            
+            _enabled = false;
             OnExitState?.Invoke(toState);
         }
     }
