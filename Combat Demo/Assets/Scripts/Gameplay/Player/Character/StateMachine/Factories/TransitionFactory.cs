@@ -81,5 +81,34 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine.Factories {
                 .Condition(bb => bb.kinematicCharacter.IsGrounded && bb.timer > bb.movementParameters.dashDuration)
                 .Build();
         }
+
+        public static Transition<BlackBoard> ToAttackState(State<BlackBoard> attackState) {
+            return Transition<BlackBoard>.GetBuilder()
+                .ToState(attackState)
+                .Condition(bb => bb.kinematicCharacter.IsGrounded && bb.combatController.HasAttacksQueued)
+                .Build();
+        }
+
+        public static Transition<BlackBoard> AttackToIdle(State<BlackBoard> idleState) {
+            return Transition<BlackBoard>.GetBuilder()
+                .ToState(idleState)
+                .Condition(bb => !bb.combatController.IsAttacking)
+                .Build();
+        }
+        
+        public static Transition<BlackBoard> AttackToAirborne(State<BlackBoard> airborneState) {
+            return Transition<BlackBoard>.GetBuilder()
+                .ToState(airborneState)
+                .Condition(bb => !bb.kinematicCharacter.IsGrounded)
+                .Build();
+        }
+        
+        public static Transition<BlackBoard> AttackToDash(Trigger<BlackBoard> dashTrigger, State<BlackBoard> dashState) {
+            return Transition<BlackBoard>.GetBuilder()
+                .ToState(dashState)
+                .SetTrigger(dashTrigger)
+                .Condition(bb => !bb.combatController.Swinging && bb.kinematicCharacter.IsGrounded)
+                .Build();
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine.Factories {
                     bb.dashCount = 0;
                     
                     bb.characterAnimator.QueueClip(Animations.Idle, 0.1f);
-                    bb.kinematicCharacter.Move(Vector3.zero);
+                    bb.kinematicCharacter.Move(Vector3.zero, bb.movementParameters.velocityDamping);
                 })
                 .Build();
         }
@@ -28,8 +28,17 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine.Factories {
                     bb.characterAnimator.QueueClip(Animations.Jog, 0.1f);
                 })
                 .OnTick(bb => {
-                    Vector3 velocity = bb.movementInput.ToGroundPlaneVector() * bb.movementParameters.moveSpeed;
-                    bb.kinematicCharacter.Move(velocity);
+                    Vector3 targetVelocity = bb.movementInput.ToGroundPlaneVector() * bb.movementParameters.moveSpeed;
+                    
+                    bb.kinematicCharacter.Move(
+                        targetVelocity,
+                        bb.movementParameters.velocityDamping
+                    );
+                    
+                    bb.kinematicCharacter.Look(
+                        bb.kinematicCharacter.CurrentMoveVelocity.Flatten(),
+                        bb.movementParameters.angularDamping
+                    );
                 })
                 .Build();
         }
@@ -41,8 +50,17 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine.Factories {
                     bb.characterAnimator.QueueClip(Animations.Sprint, 0.1f);
                 })
                 .OnTick(bb => {
-                    Vector3 velocity = bb.movementInput.ToGroundPlaneVector() * bb.movementParameters.sprintSpeed;
-                    bb.kinematicCharacter.Move(velocity);
+                    Vector3 targetVelocity = bb.movementInput.ToGroundPlaneVector() * bb.movementParameters.sprintSpeed;
+                    
+                    bb.kinematicCharacter.Move(
+                        targetVelocity,
+                        bb.movementParameters.velocityDamping
+                    );
+                    
+                    bb.kinematicCharacter.Look(
+                        bb.kinematicCharacter.CurrentMoveVelocity.Flatten(),
+                        bb.movementParameters.angularDamping
+                    );
                 })
                 .Build();
         }
@@ -59,10 +77,18 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine.Factories {
                     bb.timer = 0;
                 })
                 .OnTick(bb => {
-                    Vector3 dir = bb.movementInput == Vector2.zero ? bb.kinematicCharacter.Forward : bb.movementInput.ToGroundPlaneVector();
-                    Vector3 vel = dir * bb.dashSpeed;
+                    Vector3 targetVelocity = bb.GetMoveDirection() * bb.dashSpeed;
                     
-                    bb.kinematicCharacter.Move(vel);
+                    bb.kinematicCharacter.Move(
+                        targetVelocity, 
+                        bb.movementParameters.velocityDamping
+                    );
+                    
+                    bb.kinematicCharacter.Look(
+                        bb.kinematicCharacter.CurrentMoveVelocity.Flatten(),
+                        bb.movementParameters.angularDamping
+                    );
+                    
                     bb.timer += Time.deltaTime;
                 })
                 .Build();
@@ -101,8 +127,29 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine.Factories {
                         ? bb.movementParameters.sprintSpeed
                         : bb.movementParameters.moveSpeed;
                     
-                    Vector3 velocity = bb.movementInput.ToGroundPlaneVector() * moveSpeed;
-                    bb.kinematicCharacter.Move(velocity);
+                    Vector3 targetVelocity = bb.movementInput.ToGroundPlaneVector() * moveSpeed;
+                    
+                    bb.kinematicCharacter.Move(
+                        targetVelocity,
+                        bb.movementParameters.velocityDamping
+                    );
+                    
+                    bb.kinematicCharacter.Look(
+                        bb.kinematicCharacter.CurrentMoveVelocity.Flatten(), 
+                        bb.movementParameters.angularDamping
+                    );
+                })
+                .Build();
+        }
+
+        public static State<BlackBoard> Attack() {
+            return State<BlackBoard>.GetBuilder()
+                .OnEnter(bb => {
+                    bb.kinematicCharacter.Move(Vector3.zero, bb.movementParameters.velocityDamping);
+                    bb.combatController.StartAttacking();
+                })
+                .OnExit(bb => {
+                    bb.combatController.StopAttacking();
                 })
                 .Build();
         }

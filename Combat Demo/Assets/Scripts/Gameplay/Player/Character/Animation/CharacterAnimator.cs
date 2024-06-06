@@ -19,6 +19,10 @@ namespace CoffeeBara.Gameplay.Player.Character.Animation {
         private Animator _animator;
         private Animation _currentAnimation;
         
+        public bool UseRootMotion {
+            set => _animator.applyRootMotion = value;
+        }
+        
         private readonly Queue<Animation> _queuedAnimations = new Queue<Animation>();
         
         public float PlaybackSpeed {
@@ -39,8 +43,8 @@ namespace CoffeeBara.Gameplay.Player.Character.Animation {
                 return;
             }
             
-            float currentAnimationPlayTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            if (_currentAnimation.exitTime > currentAnimationPlayTime) {
+            float normalizedPlayTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            if (_currentAnimation.exitTime > normalizedPlayTime) {
                 return;
             }
             

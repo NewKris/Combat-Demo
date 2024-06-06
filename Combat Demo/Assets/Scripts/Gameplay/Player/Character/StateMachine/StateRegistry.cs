@@ -10,5 +10,6 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine {
         public readonly State<BlackBoard> jumpState = StateFactory.Jump();
         public readonly State<BlackBoard> doubleJumpState = StateFactory.DoubleJump();
         public readonly State<BlackBoard> airborneState = StateFactory.Airborne();
+        public readonly State<BlackBoard> attackState = StateFactory.Attack();
     }
 }

@@ -65,6 +65,15 @@ namespace CoffeeBara.Gameplay.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Detect"",
+                    ""type"": ""Button"",
+                    ""id"": ""76dcf867-9d7a-4fbc-9fba-6229b275d104"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -199,6 +208,28 @@ namespace CoffeeBara.Gameplay.Input
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fff59983-45d0-40ee-9a6c-83d76aab35a2"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Detect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6b6c667-97c2-45be-b3b4-9f7a1abf8714"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Detect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -281,6 +312,7 @@ namespace CoffeeBara.Gameplay.Input
             m_Locomotion_Jump = m_Locomotion.FindAction("Jump", throwIfNotFound: true);
             m_Locomotion_Dash = m_Locomotion.FindAction("Dash", throwIfNotFound: true);
             m_Locomotion_Sprint = m_Locomotion.FindAction("Sprint", throwIfNotFound: true);
+            m_Locomotion_Detect = m_Locomotion.FindAction("Detect", throwIfNotFound: true);
             // Combat
             m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
             m_Combat_Attack = m_Combat.FindAction("Attack", throwIfNotFound: true);
@@ -356,6 +388,7 @@ namespace CoffeeBara.Gameplay.Input
         private readonly InputAction m_Locomotion_Jump;
         private readonly InputAction m_Locomotion_Dash;
         private readonly InputAction m_Locomotion_Sprint;
+        private readonly InputAction m_Locomotion_Detect;
         public struct LocomotionActions
         {
             private @PlayerInput m_Wrapper;
@@ -364,6 +397,7 @@ namespace CoffeeBara.Gameplay.Input
             public InputAction @Jump => m_Wrapper.m_Locomotion_Jump;
             public InputAction @Dash => m_Wrapper.m_Locomotion_Dash;
             public InputAction @Sprint => m_Wrapper.m_Locomotion_Sprint;
+            public InputAction @Detect => m_Wrapper.m_Locomotion_Detect;
             public InputActionMap Get() { return m_Wrapper.m_Locomotion; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -385,6 +419,9 @@ namespace CoffeeBara.Gameplay.Input
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
+                @Detect.started += instance.OnDetect;
+                @Detect.performed += instance.OnDetect;
+                @Detect.canceled += instance.OnDetect;
             }
 
             private void UnregisterCallbacks(ILocomotionActions instance)
@@ -401,6 +438,9 @@ namespace CoffeeBara.Gameplay.Input
                 @Sprint.started -= instance.OnSprint;
                 @Sprint.performed -= instance.OnSprint;
                 @Sprint.canceled -= instance.OnSprint;
+                @Detect.started -= instance.OnDetect;
+                @Detect.performed -= instance.OnDetect;
+                @Detect.canceled -= instance.OnDetect;
             }
 
             public void RemoveCallbacks(ILocomotionActions instance)
@@ -478,6 +518,7 @@ namespace CoffeeBara.Gameplay.Input
             void OnJump(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
             void OnSprint(InputAction.CallbackContext context);
+            void OnDetect(InputAction.CallbackContext context);
         }
         public interface ICombatActions
         {

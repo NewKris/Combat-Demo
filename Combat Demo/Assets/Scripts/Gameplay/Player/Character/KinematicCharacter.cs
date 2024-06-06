@@ -4,8 +4,6 @@ using UnityEngine;
 namespace CoffeeBara.Gameplay.Player.Character {
     [RequireComponent(typeof(CharacterController))]
     public class KinematicCharacter : MonoBehaviour {
-        public bool faceMoveDirection = true;
-        
         [Header("Ground Check")]
         public float sphereRadius = 0.5f;
         public float castStart = 0.6f;
@@ -24,16 +22,31 @@ namespace CoffeeBara.Gameplay.Player.Character {
         public float VerticalVelocity { get; set; }
 
         public Vector3 Forward => transform.forward;
+        public Vector3 CurrentMoveVelocity => _horizontalVelocity.Current;
         
-        private Quaternion Rotation {
+        public Quaternion YawRotation {
             get => transform.rotation;
             set => transform.rotation = value;
         }
         
-        public void Move(Vector3 velocity) {
+        private static float CalculateYRotation(Vector3 forward) {
+            return Mathf.Atan2(forward.x, forward.z) * Mathf.Rad2Deg;
+        }
+
+        public void Move(Vector3 velocity, float damping = 0) {
+            _horizontalVelocity.Damping = damping;
             _horizontalVelocity.Target = velocity;
         }
 
+        public void Look(Vector3 direction, float damping = 0) {
+            Look(CalculateYRotation(direction), damping);
+        }
+        
+        public void Look(float rotation, float damping = 0) {
+            _yaw.Damping = damping;
+            _yaw.Target = rotation;
+        }
+        
         public void Jump(float jumpForce) {
             VerticalVelocity = jumpForce;
         }
@@ -48,18 +61,13 @@ namespace CoffeeBara.Gameplay.Player.Character {
             VerticalVelocity += Physics.gravity.y * GravityScale * Time.fixedDeltaTime;
 
             float previousY = transform.position.y;
-            Vector3 velocity = _horizontalVelocity.Tick(VelocityDamping, Time.fixedDeltaTime);
+            Vector3 velocity = _horizontalVelocity.Tick(Time.fixedDeltaTime);
             velocity.y = VerticalVelocity;
 
             _characterController.Move(velocity * Time.fixedDeltaTime);
             VerticalVelocity = (transform.position.y - previousY) / Time.fixedDeltaTime;
-
-            if (!faceMoveDirection || _horizontalVelocity.Current == Vector3.zero) {
-                return;
-            }
             
-            _yaw.Target = Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg;
-            Rotation = Quaternion.Euler(0, _yaw.Tick(AngularDamping), 0);
+            YawRotation = Quaternion.Euler(0, _yaw.Tick(Time.fixedDeltaTime), 0);
         }
 
         private bool CalculateGrounded() {

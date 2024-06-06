@@ -10,7 +10,7 @@ namespace CoffeeBara.Gameplay.Common.SimpleBehaviours {
         private DampedVector _position;
         
         public void SnapToTarget() {
-            _position = new DampedVector(target.position);
+            _position = new DampedVector(target.position, damping);
         }
 
         private void Awake() {
@@ -19,7 +19,7 @@ namespace CoffeeBara.Gameplay.Common.SimpleBehaviours {
 
         private void FixedUpdate() {
             _position.Target = target.position;
-            transform.position = _position.Tick(damping, Time.fixedDeltaTime);
+            transform.position = _position.Tick(Time.fixedDeltaTime);
         }
     }
 }

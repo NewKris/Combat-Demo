@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2d6a37fc9b33a2e46a8eb54cc6bd1fd8
+guid: 93b3a290f99faa7459e906e829ea42da
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -236,11 +236,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|sword_light_1
-      takeName: Armature|sword_light_1
-      internalID: -6207071171423553653
+      name: Armature|sword_normal_1
+      takeName: Armature|sword_normal_1
+      internalID: -6500713791838593060
       firstFrame: 0
-      lastFrame: 23
+      lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -259,17 +259,38 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.22646159
+        functionName: Slash
+        data: 
+        objectReferenceParameter: {fileID: 11400000, guid: 393450b37bd100c4fbe59c8765dda57a, type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.41626525
+        functionName: Wait
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.88425505
+        functionName: End
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|sword_light_2
-      takeName: Armature|sword_light_2
-      internalID: 3914686587832445353
+      name: Armature|sword_normal_2
+      takeName: Armature|sword_normal_2
+      internalID: 4245110080498063939
       firstFrame: 0
-      lastFrame: 23
+      lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -288,17 +309,38 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.28798184
+        functionName: Slash
+        data: 
+        objectReferenceParameter: {fileID: 11400000, guid: 393450b37bd100c4fbe59c8765dda57a, type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.46127257
+        functionName: Wait
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9199801
+        functionName: End
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|sword_light_3
-      takeName: Armature|sword_light_3
-      internalID: -5461697387450799655
+      name: Armature|sword_normal_3
+      takeName: Armature|sword_normal_3
+      internalID: 453510379626468087
       firstFrame: 0
-      lastFrame: 23
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -317,7 +359,78 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.36369908
+        functionName: Slash
+        data: 
+        objectReferenceParameter: {fileID: 11400000, guid: 393450b37bd100c4fbe59c8765dda57a, type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.4718496
+        functionName: Wait
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.91738135
+        functionName: End
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|sword_normal_4
+      takeName: Armature|sword_normal_4
+      internalID: -5969702554213496877
+      firstFrame: 0
+      lastFrame: 34
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.16809621
+        functionName: Slash
+        data: 
+        objectReferenceParameter: {fileID: 11400000, guid: 79067a4bc1c54af49a6af3e7bc1edb4b, type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.3290228
+        functionName: Wait
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5270421
+        functionName: End
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

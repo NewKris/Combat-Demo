@@ -9,5 +9,10 @@ namespace CoffeeBara.Gameplay.Player.Character.Animation {
         public static readonly int Dash = Animator.StringToHash("dash");
         public static readonly int Jump = Animator.StringToHash("jump");
         public static readonly int DoubleJump = Animator.StringToHash("double_jump");
+
+        public static readonly int SwordNormal1 = Animator.StringToHash("sword_normal_1");
+        public static readonly int SwordNormal2 = Animator.StringToHash("sword_normal_2");
+        public static readonly int SwordNormal3 = Animator.StringToHash("sword_normal_3");
+        public static readonly int SwordNormal4 = Animator.StringToHash("sword_normal_4");
     }
 }

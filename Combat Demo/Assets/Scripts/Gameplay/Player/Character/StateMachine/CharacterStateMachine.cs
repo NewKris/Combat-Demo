@@ -36,7 +36,8 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine {
                 transitions.toAirborne,
                 transitions.idleToMove,
                 transitions.toJump,
-                transitions.toDash
+                transitions.toDash,
+                transitions.toAttack
             );
             
             states.moveState.SetTransitions(
@@ -44,7 +45,8 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine {
                 transitions.moveToIdle,
                 transitions.toJump,
                 transitions.toDash,
-                transitions.moveToSprint
+                transitions.moveToSprint,
+                transitions.toAttack
             );
             
             states.sprintState.SetTransitions(
@@ -52,7 +54,8 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine {
                 transitions.moveToIdle,
                 transitions.sprintToMove,
                 transitions.toJump,
-                transitions.toDash
+                transitions.toDash,
+                transitions.toAttack
             );
             
             states.dashState.SetTransitions(
@@ -74,6 +77,12 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine {
                 transitions.toDoubleJump,
                 transitions.toIdle,
                 transitions.toDash
+            );
+            
+            states.attackState.SetTransitions(
+                transitions.attackToIdle,
+                transitions.attackToAirborne,
+                transitions.attackToDash
             );
         }
     }

@@ -13,6 +13,10 @@ namespace CoffeeBara.Gameplay.Player {
 
             _input.Locomotion.Jump.performed += _ => playerCharacter.Jump();
             _input.Locomotion.Dash.performed += _ => playerCharacter.Dash();
+            _input.Locomotion.Detect.performed += ctx => {
+                playerCharacter.UsingGamepad = ctx.control.device.description.deviceClass != "Keyboard";
+            };
+            _input.Combat.Attack.performed += _ => playerCharacter.LightAttack();
             
             _input.Enable();
         }

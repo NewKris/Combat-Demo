@@ -14,6 +14,10 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine {
         public readonly Transition<BlackBoard> toJump;
         public readonly Transition<BlackBoard> toDoubleJump;
         public readonly Transition<BlackBoard> toDash;
+        public readonly Transition<BlackBoard> toAttack;
+        public readonly Transition<BlackBoard> attackToIdle;
+        public readonly Transition<BlackBoard> attackToDash;
+        public readonly Transition<BlackBoard> attackToAirborne;
         
         public TransitionRegistry(
             StateRegistry registry,
@@ -31,6 +35,10 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine {
             toJump = TransitionFactory.ToJump(jumpTrigger, registry.jumpState);
             toDoubleJump = TransitionFactory.ToDoubleJump(jumpTrigger, registry.doubleJumpState);
             toDash = TransitionFactory.ToDash(dashTrigger, registry.dashState);
+            toAttack = TransitionFactory.ToAttackState(registry.attackState);
+            attackToIdle = TransitionFactory.AttackToIdle(registry.idleState);
+            attackToDash = TransitionFactory.AttackToDash(dashTrigger, registry.dashState);
+            attackToAirborne = TransitionFactory.AttackToAirborne(registry.airborneState);
         }
     }
 }

@@ -1,5 +1,7 @@
 using CoffeeBara.Gameplay.Common.HierarchicalStateMachine;
 using CoffeeBara.Gameplay.Player.Character.Animation;
+using CoffeeBara.Gameplay.Player.Character.Combat;
+using CoffeeBara.Gameplay.Util;
 using UnityEngine;
 
 namespace CoffeeBara.Gameplay.Player.Character.StateMachine {
@@ -16,5 +18,12 @@ namespace CoffeeBara.Gameplay.Player.Character.StateMachine {
         public MovementParameters movementParameters;
         public KinematicCharacter kinematicCharacter;
         public CharacterAnimator characterAnimator;
+        public CombatController combatController;
+
+        public Vector3 GetMoveDirection() {
+            return movementInput == Vector2.zero ? 
+                kinematicCharacter.Forward 
+                : movementInput.ToGroundPlaneVector();
+        }
     }
 }
