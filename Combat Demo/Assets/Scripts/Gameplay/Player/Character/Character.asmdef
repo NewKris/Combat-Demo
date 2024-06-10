@@ -1,0 +1,18 @@
+{
+    "name": "Character",
+    "rootNamespace": "CoffeeBara",
+    "references": [
+        "GUID:d4424229e0144a14083b4724f392f03f",
+        "GUID:f7e211ff30e4fa549b2b99c9f90f0a79",
+        "GUID:9e75e1d35ebd3f44e89e2ed1e3c77ba4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

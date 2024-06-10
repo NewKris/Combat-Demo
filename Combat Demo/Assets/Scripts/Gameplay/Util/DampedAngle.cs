@@ -3,16 +3,16 @@ using UnityEngine;
 namespace CoffeeBara.Gameplay.Util {
     public struct DampedAngle {
         private float _velocity;
-        private float _maxSpeed;
-        
+
+        public float Damping { get; set; }
         public float Current { get; set; }
         public float Target { get; set; }
 
-        public DampedAngle(float angle, float maxSpeed = Mathf.Infinity) {
+        public DampedAngle(float angle, float damping = 0) {
             Current = angle;
             Target = angle;
+            Damping = damping;
             _velocity = 0;
-            _maxSpeed = maxSpeed;
         }
         
         public float Tick(float damping = 0) {
@@ -20,7 +20,7 @@ namespace CoffeeBara.Gameplay.Util {
         }
         
         public float Tick(float damping, float dt) {
-            Current = Mathf.SmoothDampAngle(Current, Target, ref _velocity, damping, _maxSpeed, dt);
+            Current = Mathf.SmoothDampAngle(Current, Target, ref _velocity, damping, Mathf.Infinity, dt);
             return Current;
         }
     }
