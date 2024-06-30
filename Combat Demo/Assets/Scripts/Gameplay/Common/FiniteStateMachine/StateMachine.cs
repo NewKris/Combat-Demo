@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using UnityEngine;
 
 namespace CoffeeBara.Gameplay.Common.FiniteStateMachine {
     public class StateMachine<T> {
@@ -8,6 +7,7 @@ namespace CoffeeBara.Gameplay.Common.FiniteStateMachine {
         private State<T> _currentState;
         
         private readonly T _stateDependency;
+        private readonly State<T> _defaultState;
         private readonly Transition<T>[] _anyTransitions;
         private readonly Queue<State<T>> _queuedStates;
 
@@ -21,6 +21,7 @@ namespace CoffeeBara.Gameplay.Common.FiniteStateMachine {
             _queuedStates = new Queue<State<T>>();
             
             _currentState = defaultState;
+            _defaultState = defaultState;
             _stateDependency = stateDependency;
             _anyTransitions = anyTransitions;
             
@@ -37,7 +38,7 @@ namespace CoffeeBara.Gameplay.Common.FiniteStateMachine {
         
         public void Tick() {
             _currentState.Tick(_stateDependency);
-            _currentState.TryTransition();
+            _currentState.TryTransition(_stateDependency);
             TryAnyTransition();
             
             TryGoToNextState();
@@ -89,7 +90,7 @@ namespace CoffeeBara.Gameplay.Common.FiniteStateMachine {
             }
             
             foreach (Transition<T> anyTransition in _anyTransitions) {
-                if (anyTransition.Evaluate()) {
+                if (anyTransition.Evaluate(_stateDependency)) {
                     break;
                 }
             }
